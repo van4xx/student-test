@@ -3,22 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f2eee3">
-<title>Каким студентом ты станешь?</title>
-<meta name="description" content="Тест на дне открытых дверей: 12 вопросов — и ты узнаешь, каким студентом станешь.">
+<meta name="theme-color" content="#0b2e94">
+<title>Каким студентом Военмеха ты станешь?</title>
+<meta name="description" content="Тест на дне открытых дверей БГТУ «Военмех»: 12 вопросов — и ты узнаешь, каким студентом станешь.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f2eee3;
-    --ink: #121212;
-    --muted: #57534a;
+    /* --paper — фон, --ink — основной цвет текста и линий (синий чертёж) */
+    --paper: #0b2e94;
+    --ink: #ffffff;
+    --navy: #0a1f66;
+    --muted: #b9c6f2;
+    --cyan: #5ee7ff;
+    --hair: rgba(255, 255, 255, .22);
     --rule: 2px solid var(--ink);
-    --type: #ff5a1f;
-    --on: #121212;
-    --qc: #ff5a1f;
-    --qon: #121212;
+    --type: #ffc800;
+    --on: #0a1f66;
+    --qc: #ffc800;
+    --qon: #0a1f66;
     --sans: 'Inter Tight', system-ui, sans-serif;
     --serif: 'Playfair Display', Georgia, serif;
     --mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -32,18 +36,38 @@
     font: 500 17px/1.5 var(--sans);
     overflow-x: clip;
   }
-  /* бумажное зерно */
-  body::after {
-    content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .35; mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .38  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  body {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px),
+      linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    background-attachment: fixed;
   }
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 90% 60% at 70% 0%, rgba(90, 150, 255, .35), transparent 70%), radial-gradient(ellipse 80% 50% at 0% 100%, rgba(5, 15, 60, .5), transparent 70%);
+  }
+  .draft { position: fixed; z-index: 0; pointer-events: none; width: 380px; right: -150px; top: 70px; opacity: .3; }
+  .draft text { font: 700 11px var(--mono); fill: #fff; }
+  .draft .spin { transform-origin: 200px 200px; animation: rot 60s linear infinite; }
+  .draft.b { width: 300px; right: auto; left: -170px; top: auto; bottom: -60px; opacity: .18; }
+  @media (min-width: 960px) { .draft { width: 560px; right: -160px; top: 90px; } .draft.b { width: 420px; left: -200px; } }
+
+  /* логотипы перекрашиваются в цвет текста через маску */
+  .brand { display: inline-flex; align-items: center; gap: 8px; }
+  .crest, .wordmark { display: inline-block; background: currentColor; -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
+  .crest { --src: url(img/voenmeh-crest.png); width: 21px; height: 30px; }
+  .wordmark { --src: url(img/voenmeh-wordmark.webp); width: 102px; height: 11px; }
+  .big-mark { --src: url(img/voenmeh-wordmark.webp); display: block; width: 100%; aspect-ratio: 2000 / 216; margin-top: 36px; background: rgba(255, 255, 255, .12); -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
   h1, h2, h3 { margin: 0; font-weight: 900; }
   p, li { text-wrap: pretty; }
   button { font: inherit; color: inherit; }
   em { font-family: var(--serif); font-style: italic; font-weight: 900; text-transform: none; letter-spacing: -.01em; }
   #fx { position: fixed; inset: 0; z-index: 80; pointer-events: none; width: 100%; height: 100%; }
 
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px 40px; min-height: 100dvh; display: flex; flex-direction: column; }
+  .wrap { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 16px 40px; min-height: 100dvh; display: flex; flex-direction: column; }
   .screen { display: none; flex: 1; flex-direction: column; }
   .screen.on { display: flex; }
   .col { display: flex; flex-direction: column; flex: 1; }
@@ -77,6 +101,7 @@
   .btn:hover .arr { transform: translateX(6px); }
   .btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
   .btn.light { background: var(--paper); color: var(--ink); }
+  .block .btn { background: var(--navy); color: #fff; border-color: var(--navy); box-shadow: 6px 6px 0 var(--navy); }
 
   .stamp { position: absolute; width: 112px; height: 112px; animation: rot 22s linear infinite; z-index: 2; }
   .stamp text { font: 700 14.5px var(--mono); letter-spacing: .02em; fill: var(--ink); }
@@ -87,7 +112,8 @@
   .hero { position: relative; padding: 18px 0 8px; }
   .lead-wrap { position: relative; display: flex; align-items: center; gap: 12px; }
   .lead-wrap .stamp { position: relative; flex: none; }
-  .lead-wrap .stamp circle { fill: #ffc800; }
+  .lead-wrap .stamp circle { fill: #fff; }
+  .lead-wrap .stamp text { fill: var(--navy); }
   .grid { display: grid; gap: 22px; padding-top: 18px; }
   .lead { font: 700 21px/1.3 var(--sans); margin: 0; letter-spacing: -.01em; }
   .block { background: var(--type); color: var(--on); border: var(--rule); padding: 18px; display: grid; gap: 18px; }
@@ -98,7 +124,7 @@
   .toc ol { list-style: none; margin: 0; padding: 0; }
   .toc li {
     display: grid; grid-template-columns: 34px 14px 1fr auto; gap: 10px; align-items: center;
-    padding: 9px 0; border-bottom: 1px solid rgba(18, 18, 18, .25); font-weight: 700;
+    padding: 9px 0; border-bottom: 1px solid var(--hair); font-weight: 700;
   }
   .toc li .n { font: 700 12px var(--mono); color: var(--muted); }
   .toc li i { width: 14px; height: 14px; background: var(--c); border: 1.5px solid var(--ink); }
@@ -106,7 +132,7 @@
   .ticker { margin: 28px calc(50% - 50vw) 0; background: var(--ink); color: var(--paper); overflow: hidden; white-space: nowrap; padding: 14px 0; font: 900 22px/1 var(--sans); text-transform: uppercase; letter-spacing: -.01em; }
   .ticker > div { display: inline-flex; gap: 22px; padding-right: 22px; animation: marquee 40s linear infinite; }
   .ticker span { white-space: nowrap; }
-  .ticker .s { color: #ffc800; }
+  .ticker .s { color: #ff5a1f; }
   @keyframes marquee { to { transform: translateX(-50%); } }
 
   @media (min-width: 960px) {
@@ -195,20 +221,21 @@
   .p-name { font: 900 100px/.9 var(--sans); text-transform: uppercase; letter-spacing: -.035em; }
   .p-tag { font: 900 clamp(22px, 5.6vw, 36px)/1.15 var(--serif); font-style: italic; margin: 14px 0 0; padding-top: 14px; border-top: 2px solid currentColor; text-wrap: balance; }
   .poster .stamp { right: 10px; top: 46px; width: 96px; height: 96px; }
+  .p-brand { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; padding-top: 12px; border-top: 2px solid currentColor; font: 700 10px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; text-align: right; }
   .poster .stamp circle { fill: var(--paper); }
 
   .spread { display: grid; gap: 26px; margin-top: 34px; }
   .dropcap { margin: 0; font-size: 19px; line-height: 1.55; }
   .dropcap::first-letter { float: left; font: 900 76px/.8 var(--sans); padding: 6px 10px 0 0; }
   .numlist { list-style: none; margin: 0 0 24px; padding: 0; counter-reset: n; }
-  .numlist li { counter-increment: n; display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid rgba(18, 18, 18, .25); font: 800 22px/1.2 var(--sans); letter-spacing: -.02em; }
+  .numlist li { counter-increment: n; display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--hair); font: 800 22px/1.2 var(--sans); letter-spacing: -.02em; }
   .numlist li::before { content: '0' counter(n); font: 700 12px var(--mono); color: var(--muted); }
   .where { margin: 0; font: 700 19px/1.4 var(--sans); }
   .stack { display: flex; height: 64px; border: var(--rule); overflow: hidden; }
   .stack i { height: 100%; width: 0; transition: width 1s cubic-bezier(.2, .8, .2, 1); }
   .stack i + i { border-left: 2px solid var(--ink); }
   .legend { list-style: none; margin: 12px 0 0; padding: 0; }
-  .legend li { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(18, 18, 18, .25); font-weight: 700; }
+  .legend li { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--hair); font-weight: 700; }
   .legend li i { width: 14px; height: 14px; border: 1.5px solid var(--ink); }
   .legend li b { font: 700 14px var(--mono); }
   .actions { display: grid; gap: 14px; margin-top: 34px; grid-template-columns: 1fr 1fr; }
@@ -234,6 +261,25 @@
 </head>
 <body>
 <canvas id="fx" aria-hidden="true"></canvas>
+<svg class="draft" viewBox="0 0 400 400" aria-hidden="true">
+  <g fill="none" stroke="#fff" stroke-width="1">
+    <circle cx="200" cy="200" r="150"/>
+    <circle cx="200" cy="200" r="100" stroke-dasharray="10 6"/>
+    <circle cx="200" cy="200" r="40"/>
+    <path d="M0 200H400M200 0V400M200 200L320 110"/>
+    <path d="M50 385H350M50 377V393M350 377V393"/>
+    <g class="spin"><circle cx="200" cy="200" r="175" stroke-dasharray="2 7"/><circle cx="200" cy="200" r="162" stroke-width="7" stroke-dasharray="1 16"/></g>
+  </g>
+  <text x="262" y="145">R150</text><text x="176" y="375">Ø 300</text><text x="206" y="194">0,0</text>
+</svg>
+<svg class="draft b" viewBox="0 0 400 400" aria-hidden="true">
+  <g fill="none" stroke="#fff" stroke-width="1">
+    <path d="M20 380C120 360 300 260 380 30" stroke-dasharray="6 6"/>
+    <circle cx="200" cy="200" r="120"/>
+    <path d="M60 200H340M200 60V340"/>
+  </g>
+  <text x="250" y="90">ТРАЕКТОРИЯ</text>
+</svg>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs><path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
@@ -242,7 +288,7 @@
 <div class="wrap">
 
   <section class="screen on" id="start">
-    <header class="meta"><span>День открытых дверей</span><span>Тест · выпуск 01</span></header>
+    <header class="meta"><span class="brand"><i class="crest"></i><i class="wordmark"></i></span><span>День открытых дверей</span></header>
     <div class="hero">
       <h1 class="mega" id="title">
         <span class="fit" style="--d:0"><span>Каким</span></span>
@@ -252,9 +298,9 @@
     </div>
     <div class="grid">
       <div class="lead-wrap">
-        <p class="lead">Ответь на&nbsp;12 вопросов про&nbsp;себя&nbsp;— и&nbsp;узнаешь, кем будешь на&nbsp;первом курсе.</p>
+        <p class="lead">Ответь на&nbsp;12 вопросов про&nbsp;себя&nbsp;— и&nbsp;узнаешь, кем будешь на&nbsp;первом курсе Военмеха.</p>
         <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-          <circle cx="100" cy="100" r="98" stroke="#121212" stroke-width="3"/>
+          <circle cx="100" cy="100" r="98" stroke="#0a1f66" stroke-width="3"/>
           <text><textPath href="#circ" textLength="500" lengthAdjust="spacing">12 ВОПРОСОВ ✦ 8 ТИПОВ ✦ 2 МИНУТЫ ✦</textPath></text>
           <text class="c" x="100" y="120" text-anchor="middle">?</text>
         </svg>
@@ -272,12 +318,13 @@
         <ol id="toc"></ol>
       </div>
     </div>
+    <i class="big-mark" aria-hidden="true"></i>
     <div class="ticker" aria-hidden="true"><div id="tick"></div></div>
   </section>
 
   <section class="screen" id="quiz">
     <div class="col">
-      <header class="meta"><span>Вопрос</span><span id="count"></span></header>
+      <header class="meta"><span class="brand"><i class="crest"></i><i class="wordmark"></i></span><span id="count"></span></header>
       <div class="segs" id="segs"></div>
       <div class="stage" id="stage">
         <div class="qhead"><span class="qnum" id="qnum"></span><span class="of" id="of"></span></div>
@@ -296,13 +343,14 @@
       <div class="poster" id="poster">
         <header class="meta"><span id="r-kicker">Ты станешь</span><span id="r-no"></span></header>
         <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-          <circle cx="100" cy="100" r="98" stroke="#121212" stroke-width="3"/>
+          <circle cx="100" cy="100" r="98" stroke="#0a1f66" stroke-width="3"/>
           <text><textPath href="#circ" textLength="500" lengthAdjust="spacing">ДЕНЬ ОТКРЫТЫХ ДВЕРЕЙ ✦ ДОД ✦</textPath></text>
           <text class="c" x="100" y="120" text-anchor="middle">✓</text>
         </svg>
         <div class="p-emoji" id="r-emoji"></div>
         <h2 class="p-name" id="r-name"></h2>
         <p class="p-tag" id="r-tag"></p>
+        <div class="p-brand"><span class="brand"><i class="crest"></i><i class="wordmark"></i></span><span>БГТУ «Военмех» им.&nbsp;Д.&nbsp;Ф.&nbsp;Устинова</span></div>
       </div>
       <div class="spread">
         <div>
@@ -344,7 +392,7 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="quiz-data.js?v=2"></script>
+<script src="quiz-data.js?v=3"></script>
 <script>
   const $ = id => document.getElementById(id);
   const keys = Object.keys(TYPES);
@@ -365,7 +413,7 @@
     const lin = c => { c /= 255; return c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; };
     const [r, g, b] = [1, 3, 5].map(i => lin(parseInt(hex.slice(i, i + 2), 16)));
     const L = .2126 * r + .7152 * g + .0722 * b;
-    return 1.05 / (L + .05) >= 4 ? '#ffffff' : '#121212';
+    return 1.05 / (L + .05) >= 4 ? '#ffffff' : '#0a1f66';
   }
 
   function setType(hex) {
@@ -479,7 +527,7 @@
 
   $('go').onclick = () => { step = 0; picks = []; show('quiz'); renderQuestion(); };
   $('again').onclick = () => {
-    setType('#ff5a1f');
+    setType('#ffc800');
     history.replaceState(null, '', location.pathname);
     show('start');
   };
@@ -583,7 +631,7 @@
       cx.save();
       cx.globalAlpha = Math.min(1, p.life * 2);
       cx.translate(p.x, p.y); cx.rotate(p.r);
-      cx.fillStyle = p.c; cx.strokeStyle = '#121212'; cx.lineWidth = 1.5;
+      cx.fillStyle = p.c; cx.strokeStyle = '#0a1f66'; cx.lineWidth = 1.5;
       const h = p.s * Math.abs(Math.cos(p.r * 2)) + 1;
       cx.beginPath();
       if (p.round) cx.arc(0, 0, p.s / 2, 0, 7); else cx.rect(-p.s / 2, -h / 2, p.s, h);
@@ -603,6 +651,8 @@
   }
 
   // ===== картинка для сторис =====
+  const loadImg = src => new Promise((ok, fail) => { const im = new Image(); im.onload = () => ok(im); im.onerror = fail; im.src = src; });
+
   async function makeStory(key) {
     const t = TYPES[key], W = 1080, H = 1920, M = 72, on = onColor(t.color);
     const c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -636,7 +686,7 @@
 
     // Название растягивается на всю ширину, но не выше места, оставшегося до слогана
     const lines = nameLines(t.name).map(l => l.toUpperCase());
-    const top = 700, bottom = H - 330 - 70 - (100 + (tag.length - 1) * 72) - 40;
+    const top = 700, bottom = H - 380 - 70 - (100 + (tag.length - 1) * 72) - 40;
     const maxSize = (bottom - top) / (lines.length * .92);
     let y = top;
     for (const txt of lines) {
@@ -652,13 +702,17 @@
     g.font = 'italic 900 60px "Playfair Display"';
     tag.forEach((l, i) => g.fillText(l, M, y + 120 + i * 72));
 
-    g.fillStyle = '#f2eee3'; g.fillRect(0, H - 330, W, 330);
-    g.fillStyle = '#121212'; g.fillRect(0, H - 330, W, 6);
+    g.fillStyle = '#0b2e94'; g.fillRect(0, H - 380, W, 380);
+    g.fillStyle = '#ffffff'; g.fillRect(0, H - 380, W, 6);
+    const [mark, crest] = await Promise.all([loadImg('img/voenmeh-wordmark.webp'), loadImg('img/voenmeh-crest.png')]);
+    g.drawImage(mark, M, H - 320, 480, 480 * 216 / 2000);
+    g.drawImage(crest, W - M - 120, H - 345, 120, 120 * 500 / 354);
     g.font = '900 100px "Inter Tight"';
     const cta = 'А КАКИМ СТАНЕШЬ ТЫ?';
-    const cs = 100 * (W - M * 2) / g.measureText(cta).width;
-    g.font = `900 ${cs}px "Inter Tight"`; g.fillText(cta, M, H - 190);
-    g.font = '700 32px "JetBrains Mono"'; g.fillText('ПРОЙДИ ТЕСТ НА ДНЕ ОТКРЫТЫХ ДВЕРЕЙ →', M, H - 110);
+    const cs = 100 * (W - M * 2 - 160) / g.measureText(cta).width;
+    g.font = `900 ${cs}px "Inter Tight"`; g.fillText(cta, M, H - 175);
+    g.font = '700 32px "JetBrains Mono"'; g.fillStyle = '#5ee7ff';
+    g.fillText('ПРОЙДИ ТЕСТ НА ДНЕ ОТКРЫТЫХ ДВЕРЕЙ →', M, H - 95);
     return new Promise(r => c.toBlob(r, 'image/png'));
   }
 
@@ -692,7 +746,7 @@
     } catch (_) { /* пользователь закрыл окно «Поделиться» */ }
   };
 
-  setType('#ff5a1f');
+  setType('#ffc800');
   // Ссылка вида #founder открывает карточку типа — так результат видят друзья
   if (TYPES[location.hash.slice(1)]) renderResult(location.hash.slice(1), null, true);
   else refit();
