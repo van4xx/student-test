@@ -3,471 +3,235 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b2e94">
+<meta name="theme-color" content="#ffffff">
 <title>Каким студентом Военмеха ты станешь?</title>
 <meta name="description" content="Тест на дне открытых дверей БГТУ «Военмех»: 12 вопросов — и ты узнаешь, каким студентом станешь.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* --paper — фон, --ink — основной цвет текста и линий (синий чертёж) */
-    --paper: #0b2e94;
-    --ink: #ffffff;
-    --navy: #0a1f66;
-    --muted: #b9c6f2;
-    --cyan: #5ee7ff;
-    --hair: rgba(255, 255, 255, .22);
-    --rule: 2px solid var(--ink);
-    --type: #ffc800;
-    --on: #0a1f66;
-    --qc: #ffc800;
-    --qon: #0a1f66;
-    --sans: 'Inter Tight', system-ui, sans-serif;
-    --serif: 'Playfair Display', Georgia, serif;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --bg: #ffffff;
+    --surface: #f4f7fc;
+    --tint: #eaf1fe;
+    --line: #dfe5ef;
+    --text: #0e1b3d;
+    --muted: #5f6b80;
+    --blue: #1a4fd6;
+    --blue-dark: #123ba6;
+    --sky: #6f9ef5;
+    --font: 'Onest', system-ui, sans-serif;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; }
   body {
-    min-height: 100dvh;
-    background: var(--paper);
-    color: var(--ink);
-    font: 500 17px/1.5 var(--sans);
-    overflow-x: clip;
+    min-height: 100dvh; background: var(--bg); color: var(--text);
+    font: 400 17px/1.55 var(--font);
   }
-  body {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px),
-      linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px);
-    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
-    background-attachment: fixed;
-  }
-  body::after {
-    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background: radial-gradient(ellipse 90% 60% at 70% 0%, rgba(90, 150, 255, .35), transparent 70%), radial-gradient(ellipse 80% 50% at 0% 100%, rgba(5, 15, 60, .5), transparent 70%);
-  }
-  .draft { position: fixed; z-index: 0; pointer-events: none; width: 380px; right: -150px; top: 70px; opacity: .3; }
-  .draft text { font: 700 11px var(--mono); fill: #fff; }
-  .draft .spin { transform-origin: 200px 200px; animation: rot 60s linear infinite; }
-  .draft.b { width: 300px; right: auto; left: -170px; top: auto; bottom: -60px; opacity: .18; }
-  @media (min-width: 960px) { .draft { width: 560px; right: -160px; top: 90px; } .draft.b { width: 420px; left: -200px; } }
-
-  /* логотипы перекрашиваются в цвет текста через маску */
-  .brand { display: inline-flex; align-items: center; gap: 8px; }
-  .crest, .wordmark { display: inline-block; background: currentColor; -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
-  .crest { --src: url(img/voenmeh-crest.png); width: 21px; height: 30px; }
-  .wordmark { --src: url(img/voenmeh-wordmark.webp); width: 102px; height: 11px; }
-  .big-mark { --src: url(img/voenmeh-wordmark.webp); display: block; width: 100%; aspect-ratio: 2000 / 216; margin-top: 36px; background: rgba(255, 255, 255, .12); -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
-  h1, h2, h3 { margin: 0; font-weight: 900; }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2 { text-wrap: balance; letter-spacing: -.02em; }
   p, li { text-wrap: pretty; }
   button { font: inherit; color: inherit; }
-  em { font-family: var(--serif); font-style: italic; font-weight: 900; text-transform: none; letter-spacing: -.01em; }
-  #fx { position: fixed; inset: 0; z-index: 80; pointer-events: none; width: 100%; height: 100%; }
 
-  .wrap { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 16px 40px; min-height: 100dvh; display: flex; flex-direction: column; }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 20px 48px; min-height: 100dvh; display: flex; flex-direction: column; }
   .screen { display: none; flex: 1; flex-direction: column; }
-  .screen.on { display: flex; }
-  .col { display: flex; flex-direction: column; flex: 1; }
+  .screen.on { display: flex; animation: fade .35s ease both; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+  /* Первый экран виден сразу, без анимации */
+  #start.on { animation: none; }
 
-  .meta {
-    display: flex; justify-content: space-between; gap: 12px; align-items: center;
-    font: 700 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase;
-    padding: 16px 0 12px; border-bottom: var(--rule);
-  }
-  .lbl { font: 700 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 10px 0; border-bottom: var(--rule); margin-bottom: 14px; display: flex; justify-content: space-between; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 72px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--blue); }
+  .crest, .wordmark { display: inline-block; background: currentColor; -webkit-mask: var(--src) center / contain no-repeat; mask: var(--src) center / contain no-repeat; }
+  .crest { --src: url(img/voenmeh-crest.png); width: 22px; height: 31px; }
+  .wordmark { --src: url(img/voenmeh-wordmark.webp); width: 104px; height: 11px; }
+  .top small { color: var(--muted); font-size: 14px; }
 
-  /* строки, растянутые на всю ширину */
-  .fit { display: block; width: max-content; white-space: nowrap; overflow: hidden; line-height: .9; word-spacing: .14em; padding-top: .12em; margin-top: -.08em; }
-  .fit > span { display: inline-block; animation: up .9s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--d, 0) * 90ms); }
-  @keyframes up { from { transform: translateY(110%); } }
-  .mega { font: 900 100px/.9 var(--sans); text-transform: uppercase; letter-spacing: -.035em; }
-  .mega em { color: var(--type); }
-  /* Заголовок первого экрана всегда видим сразу: без анимации входа */
-  .mega .fit > span { animation: none; }
+  .icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
   .btn {
-    appearance: none; border: var(--rule); cursor: pointer; border-radius: 0;
-    display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    font: 800 20px/1 var(--sans); text-transform: uppercase; letter-spacing: -.01em; text-align: left;
-    padding: 20px 22px; background: var(--ink); color: var(--paper);
-    box-shadow: 6px 6px 0 var(--ink);
-    transition: transform .15s, box-shadow .15s;
+    appearance: none; border: 0; cursor: pointer; border-radius: 14px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    font: 600 17px/1 var(--font); padding: 18px 26px;
+    background: var(--blue); color: #fff; transition: background .2s, transform .1s;
   }
-  .btn .arr { transition: transform .25s cubic-bezier(.2, .9, .3, 1.4); }
-  .btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
-  .btn:hover .arr { transform: translateX(6px); }
-  .btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
-  .btn.light { background: var(--paper); color: var(--ink); }
-  .block .btn { background: var(--navy); color: #fff; border-color: var(--navy); box-shadow: 6px 6px 0 var(--navy); }
-
-  .stamp { position: absolute; width: 112px; height: 112px; animation: rot 22s linear infinite; z-index: 2; }
-  .stamp text { font: 700 14.5px var(--mono); letter-spacing: .02em; fill: var(--ink); }
-  .stamp .c { font: 900 54px var(--serif); font-style: italic; }
-  @keyframes rot { to { transform: rotate(360deg); } }
+  .btn:hover { background: var(--blue-dark); }
+  .btn:active { transform: scale(.98); }
+  .btn.secondary { background: var(--tint); color: var(--blue); }
+  .btn.secondary:hover { background: #dce7fd; }
+  .btn.ghost { background: none; color: var(--muted); padding: 14px; }
+  .btn.ghost:hover { color: var(--text); }
 
   /* ===== старт ===== */
-  .hero { position: relative; padding: 18px 0 8px; }
-  .lead-wrap { position: relative; display: flex; align-items: center; gap: 12px; }
-  .lead-wrap .stamp { position: relative; flex: none; }
-  .lead-wrap .stamp circle { fill: #fff; }
-  .lead-wrap .stamp text { fill: var(--navy); }
-  .grid { display: grid; gap: 22px; padding-top: 18px; }
-  .lead { font: 700 21px/1.3 var(--sans); margin: 0; letter-spacing: -.01em; }
-  .block { background: var(--type); color: var(--on); border: var(--rule); padding: 18px; display: grid; gap: 18px; }
-  .nums { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 2px solid currentColor; padding-bottom: 14px; }
-  .nums div + div { border-left: 2px solid currentColor; padding-left: 12px; }
-  .nums b { display: block; font: 900 48px/1 var(--sans); letter-spacing: -.04em; }
-  .nums span { font: 700 11px/1.2 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
-  .toc ol { list-style: none; margin: 0; padding: 0; }
-  .toc li {
-    display: grid; grid-template-columns: 34px 14px 1fr auto; gap: 10px; align-items: center;
-    padding: 9px 0; border-bottom: 1px solid var(--hair); font-weight: 700;
-  }
-  .toc li .n { font: 700 12px var(--mono); color: var(--muted); }
-  .toc li i { width: 14px; height: 14px; background: var(--c); border: 1.5px solid var(--ink); }
-  .toc li .e { font-size: 20px; }
-  .ticker { margin: 28px calc(50% - 50vw) 0; background: var(--ink); color: var(--paper); overflow: hidden; white-space: nowrap; padding: 14px 0; font: 900 22px/1 var(--sans); text-transform: uppercase; letter-spacing: -.01em; }
-  .ticker > div { display: inline-flex; gap: 22px; padding-right: 22px; animation: marquee 40s linear infinite; }
-  .ticker span { white-space: nowrap; }
-  .ticker .s { color: #ff5a1f; }
-  @keyframes marquee { to { transform: translateX(-50%); } }
-
-  @media (min-width: 960px) {
-    #start.on { display: grid; grid-template-columns: 1.75fr 1fr; grid-template-rows: auto auto 1fr auto auto; column-gap: 44px; align-content: start; }
-    #start .meta, #start .ticker { grid-column: 1 / -1; }
-    #start .hero { grid-column: 1; grid-row: 2 / span 2; padding-top: 28px; }
-    .grid { display: contents; }
-    .lead-wrap { grid-column: 2; grid-row: 2; padding-top: 34px; }
-    .lead-wrap .stamp { width: 132px; height: 132px; }
-    .block { grid-column: 2; grid-row: 3; align-self: end; margin-bottom: 8px; }
-    .toc { grid-column: 1 / -1; grid-row: 4; margin-top: 36px; }
-    .toc ol { columns: 2; column-gap: 44px; }
-    .toc li { break-inside: avoid; }
-    .lead { font-size: 24px; }
-    .answer { font-size: 22px; padding: 20px 8px; }
-  }
+  .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding: 24px 0 40px; }
+  .chip { align-self: flex-start; background: var(--tint); color: var(--blue); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 999px; }
+  .hero h1 { font-size: clamp(36px, 9vw, 60px); line-height: 1.05; font-weight: 700; }
+  .hero h1 span { color: var(--blue); }
+  .lead { color: var(--muted); font-size: 18px; max-width: 34ch; }
+  .cta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 6px; }
+  .cta small { color: var(--muted); font-size: 14px; }
+  .types { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; margin-top: 18px; padding-top: 26px; border-top: 1px solid var(--line); }
+  .types span { aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; background: var(--surface); color: var(--sky); }
+  .types .icon { width: 22px; height: 22px; }
 
   /* ===== вопрос ===== */
-  .segs { display: flex; gap: 3px; padding: 10px 0; }
-  .segs i { flex: 1; height: 8px; border: 1.5px solid var(--ink); transition: background .3s; }
-  .segs i.done { background: var(--ink); }
-  .segs i.cur { background: var(--qc); }
-  .stage { flex: 1; display: flex; flex-direction: column; transition: transform .22s, opacity .22s; }
-  .stage.out { transform: translateX(-24px); opacity: 0; }
-  .qhead { display: flex; align-items: flex-end; gap: 14px; padding: 10px 0 14px; }
-  .qnum {
-    background: var(--qc); color: var(--qon); border: var(--rule);
-    font: 900 92px/.82 var(--sans); letter-spacing: -.05em; padding: 12px 10px 4px 6px;
-  }
-  .stage.in .qnum { animation: slam .5s cubic-bezier(.2, .9, .3, 1.3) both; }
-  @keyframes slam { from { transform: scale(1.35) rotate(-6deg); } }
-  .qhead .of { font: 700 12px/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; padding-bottom: 6px; }
-  .q { font: 900 clamp(28px, 7.4vw, 52px)/1.02 var(--sans); letter-spacing: -.035em; margin: 0 0 22px; text-wrap: balance; }
-  .stage.in .q { animation: rise .55s cubic-bezier(.2, .8, .2, 1) both; }
-  @keyframes rise { from { transform: translateY(18px); opacity: 0; } }
-  .answers { list-style: none; margin: 0; padding: 0; border-bottom: var(--rule); }
+  .qbar { display: flex; align-items: center; gap: 14px; height: 72px; }
+  .back { flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); cursor: pointer; display: grid; place-items: center; color: var(--text); }
+  .back:disabled { opacity: .35; cursor: default; }
+  .progress { flex: 1; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .progress i { display: block; height: 100%; width: 0; background: var(--blue); transition: width .3s ease; }
+  .count { flex: none; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .stage { padding-top: 28px; transition: opacity .18s; }
+  .stage.out { opacity: 0; }
+  .q { font-size: clamp(24px, 6vw, 32px); line-height: 1.2; font-weight: 600; margin-bottom: 26px; }
+  .answers { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
   .answer {
-    width: 100%; appearance: none; border: 0; border-top: var(--rule); cursor: pointer; text-align: left;
-    display: grid; grid-template-columns: 40px 1fr 22px; gap: 14px; align-items: center;
-    padding: 16px 6px; font: 700 19px/1.25 var(--sans); letter-spacing: -.01em;
-    background: linear-gradient(var(--qc), var(--qc)) no-repeat 0 0 / 0% 100%;
-    transition: background-size .35s cubic-bezier(.2, .8, .2, 1), padding .25s, color .2s;
-    animation: rise .5s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i) * 60ms + 100ms);
+    width: 100%; text-align: left; cursor: pointer; appearance: none;
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg);
+    font: 500 17px/1.35 var(--font); transition: border-color .15s, background .15s, color .15s;
   }
-  .answer .k { width: 36px; height: 36px; display: grid; place-items: center; border: var(--rule); font: 700 15px var(--mono); background: var(--paper); color: var(--ink); }
-  .answer .arr { font-weight: 900; opacity: 0; transform: translateX(-8px); transition: .25s; }
-  .answer:hover { background-size: 100% 100%; color: var(--qon); padding-left: 14px; }
-  .answer:hover .arr { opacity: 1; transform: none; }
-  .answer.picked { background: var(--ink); color: var(--paper); padding-left: 14px; }
-  .answer.picked .k { background: var(--qc); color: var(--qon); border-color: var(--paper); }
-  .qfoot { display: flex; justify-content: space-between; align-items: center; padding-top: 18px; }
-  .back { appearance: none; background: none; border: 0; cursor: pointer; font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 8px 0; }
-  .back:disabled { opacity: .3; cursor: default; }
-  .keys { font: 500 12px var(--mono); color: var(--muted); display: none; }
+  .answer b { flex: none; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--surface); color: var(--muted); font-size: 14px; font-weight: 600; transition: .15s; }
+  .answer:hover { border-color: var(--sky); background: var(--surface); }
+  .answer.picked { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .answer.picked b { background: rgba(255, 255, 255, .18); color: #fff; }
+  .keys { margin-top: 20px; color: var(--muted); font-size: 13px; display: none; }
   @media (hover: hover) and (min-width: 700px) { .keys { display: block; } }
-  @media (min-width: 960px) {
-    #quiz .col { display: grid; grid-template-columns: 300px 1fr; grid-template-rows: auto auto auto 1fr auto; gap: 0 48px; }
-    #quiz .meta, #quiz .segs, #quiz .qfoot { grid-column: 1 / -1; }
-    .stage { display: contents; }
-    .qhead { grid-row: 3 / span 2; flex-direction: column; align-items: flex-start; padding-top: 22px; }
-    .qnum { font-size: 210px; }
-    .q { grid-column: 2; padding-top: 22px; }
-    .answers { grid-column: 2; align-self: start; }
-  }
-
-  /* ===== вспышки перед результатом ===== */
-  .flash {
-    position: fixed; inset: 0; z-index: 70; display: none; flex-direction: column; justify-content: space-between;
-    padding: 0 16px 24px; background: var(--fc, var(--ink)); color: var(--fon, var(--paper));
-  }
-  .flash.on { display: flex; }
-  .flash .meta { border-color: currentColor; }
-  .flash .big { font-size: clamp(120px, 34vw, 260px); line-height: 1; }
-  .flash .name { font: 900 100px/.9 var(--sans); text-transform: uppercase; letter-spacing: -.035em; }
-  .flash .name .fit > span { animation: none; }
-  .flash .line { font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .06em; border-top: 2px solid currentColor; padding-top: 12px; }
 
   /* ===== результат ===== */
-  .poster { position: relative; margin-top: 16px; background: var(--type); color: var(--on); border: var(--rule); box-shadow: 10px 10px 0 var(--ink); padding: 0 16px 18px; overflow: hidden; }
-  .poster.go { animation: pop .7s cubic-bezier(.2, .9, .3, 1.25) both; }
-  @keyframes pop { from { transform: scale(.88) rotate(-2deg); } }
-  .poster .meta { border-color: currentColor; }
-  .p-emoji { font-size: clamp(110px, 34vw, 230px); line-height: 1; padding: 18px 0 6px; display: inline-block; }
-  .poster.go .p-emoji { animation: spinIn .9s cubic-bezier(.2, .9, .3, 1.3) .15s both; }
-  @keyframes spinIn { from { transform: rotate(-200deg) scale(.2); } }
-  .p-name { font: 900 100px/.9 var(--sans); text-transform: uppercase; letter-spacing: -.035em; }
-  .p-tag { font: 900 clamp(22px, 5.6vw, 36px)/1.15 var(--serif); font-style: italic; margin: 14px 0 0; padding-top: 14px; border-top: 2px solid currentColor; text-wrap: balance; }
-  .poster .stamp { right: 10px; top: 46px; width: 96px; height: 96px; }
-  .p-brand { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 16px; padding-top: 12px; border-top: 2px solid currentColor; font: 700 10px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; text-align: right; }
-  .poster .stamp circle { fill: var(--paper); }
-
-  .spread { display: grid; gap: 26px; margin-top: 34px; }
-  .dropcap { margin: 0; font-size: 19px; line-height: 1.55; }
-  .dropcap::first-letter { float: left; font: 900 76px/.8 var(--sans); padding: 6px 10px 0 0; }
-  .numlist { list-style: none; margin: 0 0 24px; padding: 0; counter-reset: n; }
-  .numlist li { counter-increment: n; display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--hair); font: 800 22px/1.2 var(--sans); letter-spacing: -.02em; }
-  .numlist li::before { content: '0' counter(n); font: 700 12px var(--mono); color: var(--muted); }
-  .where { margin: 0; font: 700 19px/1.4 var(--sans); }
-  .stack { display: flex; height: 64px; border: var(--rule); overflow: hidden; }
-  .stack i { height: 100%; width: 0; transition: width 1s cubic-bezier(.2, .8, .2, 1); }
-  .stack i + i { border-left: 2px solid var(--ink); }
-  .legend { list-style: none; margin: 12px 0 0; padding: 0; }
-  .legend li { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--hair); font-weight: 700; }
-  .legend li i { width: 14px; height: 14px; border: 1.5px solid var(--ink); }
-  .legend li b { font: 700 14px var(--mono); }
-  .actions { display: grid; gap: 14px; margin-top: 34px; grid-template-columns: 1fr 1fr; }
-  .actions .btn:not(.light) { grid-column: 1 / -1; }
-  .actions .btn.light { font-size: 16px; padding: 16px 18px; }
-  .hint { margin: 26px 0 0; padding-top: 12px; border-top: var(--rule); font: 700 12px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
-  @media (min-width: 960px) {
-    #result .col { max-width: 1080px; margin: 0 auto; width: 100%; }
-    .poster { padding: 0 28px 28px; }
-    .poster .stamp { width: 150px; height: 150px; right: 28px; top: 60px; }
-    .spread { grid-template-columns: 1.2fr 1fr; gap: 48px; }
-    .actions { grid-template-columns: 2fr 1fr 1fr; }
-    .actions .btn:not(.light) { grid-column: auto; }
+  .result { gap: 28px; padding-bottom: 8px; }
+  .card { background: var(--tint); border-radius: 24px; padding: 32px 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .card .label { color: var(--muted); font-size: 14px; }
+  .badge { width: 96px; height: 96px; border-radius: 28px; background: var(--blue); color: #fff; display: grid; place-items: center; margin: 6px 0 8px; }
+  .badge .icon { width: 48px; height: 48px; stroke-width: 1.4; }
+  .card h2 { font-size: clamp(28px, 7.5vw, 40px); line-height: 1.1; font-weight: 700; }
+  .card .tag { color: var(--blue); font-weight: 500; font-size: 18px; max-width: 28ch; }
+  .text { font-size: 17px; }
+  .section h3 { font-size: 14px; font-weight: 500; color: var(--muted); margin-bottom: 10px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pills span { background: var(--surface); border-radius: 10px; padding: 8px 12px; font-size: 15px; font-weight: 500; }
+  .where { font-weight: 500; }
+  .mix { display: grid; gap: 12px; }
+  .mix .row { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: center; font-size: 15px; }
+  .mix .row .icon { width: 20px; height: 20px; color: var(--muted); }
+  .mix .row b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .mix .bar { grid-column: 2 / -1; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: -6px; }
+  .mix .bar i { display: block; height: 100%; width: 0; border-radius: 4px; transition: width .8s ease; }
+  .actions { display: grid; gap: 10px; }
+  .foot { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--muted); font-size: 13px; padding-top: 8px; }
+  .foot .brand { color: var(--muted); }
+  .foot .crest { width: 16px; height: 23px; }
+  .foot .wordmark { width: 80px; height: 9px; }
+  @media (min-width: 700px) {
+    .card { padding: 44px 32px; }
+    .actions { grid-template-columns: 1fr 1fr; }
+    .actions .ghost { grid-column: 1 / -1; }
   }
 
-  .toast { position: fixed; left: 50%; bottom: 28px; z-index: 95; transform: translate(-50%, 80px); background: var(--ink); color: var(--paper); padding: 14px 20px; font: 700 13px var(--mono); text-transform: uppercase; letter-spacing: .04em; transition: .3s cubic-bezier(.2, .9, .3, 1.3); pointer-events: none; }
-  .toast.on { transform: translate(-50%, 0); }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 16px); opacity: 0; background: var(--text); color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 15px; transition: .25s; pointer-events: none; }
+  .toast.on { transform: translate(-50%, 0); opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   }
 </style>
 </head>
 <body>
-<canvas id="fx" aria-hidden="true"></canvas>
-<svg class="draft" viewBox="0 0 400 400" aria-hidden="true">
-  <g fill="none" stroke="#fff" stroke-width="1">
-    <circle cx="200" cy="200" r="150"/>
-    <circle cx="200" cy="200" r="100" stroke-dasharray="10 6"/>
-    <circle cx="200" cy="200" r="40"/>
-    <path d="M0 200H400M200 0V400M200 200L320 110"/>
-    <path d="M50 385H350M50 377V393M350 377V393"/>
-    <g class="spin"><circle cx="200" cy="200" r="175" stroke-dasharray="2 7"/><circle cx="200" cy="200" r="162" stroke-width="7" stroke-dasharray="1 16"/></g>
-  </g>
-  <text x="262" y="145">R150</text><text x="176" y="375">Ø 300</text><text x="206" y="194">0,0</text>
-</svg>
-<svg class="draft b" viewBox="0 0 400 400" aria-hidden="true">
-  <g fill="none" stroke="#fff" stroke-width="1">
-    <path d="M20 380C120 360 300 260 380 30" stroke-dasharray="6 6"/>
-    <circle cx="200" cy="200" r="120"/>
-    <path d="M60 200H340M200 60V340"/>
-  </g>
-  <text x="250" y="90">ТРАЕКТОРИЯ</text>
-</svg>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs><path id="circ" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs>
-</svg>
-
 <div class="wrap">
 
   <section class="screen on" id="start">
-    <header class="meta"><span class="brand"><i class="crest"></i><i class="wordmark"></i></span><span>День открытых дверей</span></header>
+    <header class="top">
+      <span class="brand" aria-label="Военмех"><i class="crest"></i><i class="wordmark"></i></span>
+      <small>День открытых дверей</small>
+    </header>
     <div class="hero">
-      <h1 class="mega" id="title">
-        <span class="fit" style="--d:0"><span>Каким</span></span>
-        <span class="fit" style="--d:1"><span>студентом</span></span>
-        <span class="fit" style="--d:2"><span><em>ты</em> станешь?</span></span>
-      </h1>
+      <span class="chip">Тест · 2 минуты</span>
+      <h1>Каким студентом <span>Военмеха</span> ты&nbsp;станешь?</h1>
+      <p class="lead">Ответь на&nbsp;12 вопросов про&nbsp;себя&nbsp;— и&nbsp;узнаешь, кем будешь на&nbsp;первом курсе.</p>
+      <div class="cta">
+        <button class="btn" id="go">Пройти тест</button>
+        <small>12 вопросов · 8 типов</small>
+      </div>
+      <div class="types" id="types" aria-hidden="true"></div>
     </div>
-    <div class="grid">
-      <div class="lead-wrap">
-        <p class="lead">Ответь на&nbsp;12 вопросов про&nbsp;себя&nbsp;— и&nbsp;узнаешь, кем будешь на&nbsp;первом курсе Военмеха.</p>
-        <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-          <circle cx="100" cy="100" r="98" stroke="#0a1f66" stroke-width="3"/>
-          <text><textPath href="#circ" textLength="500" lengthAdjust="spacing">12 ВОПРОСОВ ✦ 8 ТИПОВ ✦ 2 МИНУТЫ ✦</textPath></text>
-          <text class="c" x="100" y="120" text-anchor="middle">?</text>
-        </svg>
-      </div>
-      <div class="block">
-        <div class="nums">
-          <div><b>12</b><span>вопросов</span></div>
-          <div><b>8</b><span>типов</span></div>
-          <div><b>2</b><span>минуты</span></div>
-        </div>
-        <button class="btn" id="go">Начать тест <span class="arr">→</span></button>
-      </div>
-      <div class="toc">
-        <h3 class="lbl"><span>В этом выпуске</span><span>8 типов</span></h3>
-        <ol id="toc"></ol>
-      </div>
-    </div>
-    <i class="big-mark" aria-hidden="true"></i>
-    <div class="ticker" aria-hidden="true"><div id="tick"></div></div>
   </section>
 
   <section class="screen" id="quiz">
-    <div class="col">
-      <header class="meta"><span class="brand"><i class="crest"></i><i class="wordmark"></i></span><span id="count"></span></header>
-      <div class="segs" id="segs"></div>
-      <div class="stage" id="stage">
-        <div class="qhead"><span class="qnum" id="qnum"></span><span class="of" id="of"></span></div>
-        <h2 class="q" id="q"></h2>
-        <ol class="answers" id="answers"></ol>
-      </div>
-      <footer class="qfoot">
-        <button class="back" id="back">← Назад</button>
-        <span class="keys">Отвечай клавишами 1–4</span>
-      </footer>
+    <div class="qbar">
+      <button class="back" id="back" aria-label="Назад"><svg class="icon" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <div class="progress"><i id="bar"></i></div>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="stage" id="stage">
+      <h2 class="q" id="q"></h2>
+      <ol class="answers" id="answers"></ol>
+      <p class="keys">Можно отвечать клавишами 1–4</p>
     </div>
   </section>
 
-  <section class="screen" id="result">
-    <div class="col">
-      <div class="poster" id="poster">
-        <header class="meta"><span id="r-kicker">Ты станешь</span><span id="r-no"></span></header>
-        <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
-          <circle cx="100" cy="100" r="98" stroke="#0a1f66" stroke-width="3"/>
-          <text><textPath href="#circ" textLength="500" lengthAdjust="spacing">ДЕНЬ ОТКРЫТЫХ ДВЕРЕЙ ✦ ДОД ✦</textPath></text>
-          <text class="c" x="100" y="120" text-anchor="middle">✓</text>
-        </svg>
-        <div class="p-emoji" id="r-emoji"></div>
-        <h2 class="p-name" id="r-name"></h2>
-        <p class="p-tag" id="r-tag"></p>
-        <div class="p-brand"><span class="brand"><i class="crest"></i><i class="wordmark"></i></span><span>БГТУ «Военмех» им.&nbsp;Д.&nbsp;Ф.&nbsp;Устинова</span></div>
-      </div>
-      <div class="spread">
-        <div>
-          <h3 class="lbl"><span>Кто ты</span><span>§ 1</span></h3>
-          <p class="dropcap" id="r-text"></p>
-        </div>
-        <div>
-          <h3 class="lbl"><span>Сильные стороны</span><span>§ 2</span></h3>
-          <ol class="numlist" id="r-strengths"></ol>
-          <h3 class="lbl"><span>Где тебя ждут</span><span>§ 3</span></h3>
-          <p class="where" id="r-where"></p>
-        </div>
-      </div>
-      <div class="spread" id="mix-box">
-        <div>
-          <h3 class="lbl"><span>Твой студенческий микс</span><span>§ 4</span></h3>
-          <div class="stack" id="stack"></div>
-          <ul class="legend" id="legend"></ul>
-        </div>
-      </div>
-      <div class="actions">
-        <button class="btn" id="story">Картинка для сторис <span class="arr">↓</span></button>
-        <button class="btn light" id="share">Поделиться</button>
-        <button class="btn light" id="again">Заново</button>
-      </div>
-      <p class="hint">Покажи результат на&nbsp;стенде — там тебя ждёт сюрприз</p>
+  <section class="screen result" id="result">
+    <header class="top">
+      <span class="brand" aria-label="Военмех"><i class="crest"></i><i class="wordmark"></i></span>
+      <small>День открытых дверей</small>
+    </header>
+    <div class="card">
+      <span class="label" id="r-kicker">Ты станешь</span>
+      <span class="badge" id="r-icon"></span>
+      <h2 id="r-name"></h2>
+      <p class="tag" id="r-tag"></p>
     </div>
+    <p class="text" id="r-text"></p>
+    <div class="section">
+      <h3>Сильные стороны</h3>
+      <div class="pills" id="r-strengths"></div>
+    </div>
+    <div class="section">
+      <h3>Где тебя ждут в вузе</h3>
+      <p class="where" id="r-where"></p>
+    </div>
+    <div class="section" id="mix-box">
+      <h3>Твой студенческий микс</h3>
+      <div class="mix" id="r-mix"></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="story">Сохранить для сторис</button>
+      <button class="btn secondary" id="share">Поделиться</button>
+      <button class="btn ghost" id="again">Пройти ещё раз</button>
+    </div>
+    <p class="foot">БГТУ «Военмех» им.&nbsp;Д.&nbsp;Ф.&nbsp;Устинова</p>
   </section>
 
-</div>
-
-<div class="flash" id="flash">
-  <header class="meta"><span>Считаем результат</span><span id="flash-n"></span></header>
-  <div>
-    <div class="big" id="flash-emoji"></div>
-    <div class="name" id="flash-name"></div>
-  </div>
-  <div class="line" id="flash-line"></div>
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="quiz-data.js?v=3"></script>
+<script src="quiz-data.js?v=4"></script>
 <script>
   const $ = id => document.getElementById(id);
   const keys = Object.keys(TYPES);
   const letters = ['А', 'Б', 'В', 'Г'];
+  const MIX = ['#1a4fd6', '#6f9ef5', '#a9c4f7', '#cfd8e6'];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const sleep = ms => new Promise(r => setTimeout(r, ms));
-  const root = document.documentElement.style;
-  const pad = n => String(n).padStart(2, '0');
   // Предлоги и союзы из 1–2 букв приклеиваем к следующему слову, чтобы они не висели в конце строки
   const nb = s => s.replace(/(^|[\s«(])([а-яёА-ЯЁ]{1,2}) /g, '$1$2 ');
+  const svg = (k, cls = 'icon') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${TYPES[k].icon}</svg>`;
   let step = 0;
   let picks = [];
   let locked = false;
   let current = null;
 
-  // Белый текст на цвете, только если он читается (контраст от 4:1), иначе чёрный
-  function onColor(hex) {
-    const lin = c => { c /= 255; return c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; };
-    const [r, g, b] = [1, 3, 5].map(i => lin(parseInt(hex.slice(i, i + 2), 16)));
-    const L = .2126 * r + .7152 * g + .0722 * b;
-    return 1.05 / (L + .05) >= 4 ? '#ffffff' : '#0a1f66';
-  }
-
-  function setType(hex) {
-    root.setProperty('--type', hex);
-    root.setProperty('--on', onColor(hex));
-  }
-
-  // Каждая строка .fit масштабируется так, чтобы занять всю ширину контейнера
-  function fit(container, maxRatio = 1) {
-    const W = container.clientWidth;
-    container.querySelectorAll('.fit').forEach(el => {
-      el.style.fontSize = '100px';
-      const w = el.getBoundingClientRect().width;
-      el.style.fontSize = Math.min(100 * W / w, W * maxRatio) + 'px';
-    });
-  }
-
-  // Короткие слова склеиваем с соседним, чтобы «из» не стало отдельной огромной строкой
-  function nameLines(name) {
-    return name.split(' ').reduce((ls, w) => {
-      const last = ls[ls.length - 1];
-      if (last !== undefined && (w.length <= 2 || last.length <= 2)) ls[ls.length - 1] = `${last} ${w}`;
-      else ls.push(w);
-      return ls;
-    }, []);
-  }
-  const fitHTML = name => nameLines(name).map((l, i) => `<span class="fit" style="--d:${i}"><span>${l}</span></span>`).join('');
-
-  // ===== старт =====
-  $('toc').innerHTML = keys.map((k, i) =>
-    `<li><span class="n">${pad(i + 1)}</span><i style="--c:${TYPES[k].color}"></i><span>${TYPES[k].name}</span><span class="e">${TYPES[k].emoji}</span></li>`
-  ).join('');
-  const tickRow = keys.map(k => `<span>${TYPES[k].name}</span><span class="s">✦</span>`).join('');
-  $('tick').innerHTML = tickRow + tickRow;
-
-  function refit() {
-    if ($('start').classList.contains('on')) fit($('title'));
-    if ($('result').classList.contains('on')) fit($('r-name'), .3);
-  }
-  addEventListener('resize', refit);
-  document.fonts.ready.then(refit);
+  $('types').innerHTML = keys.map(k => `<span title="${TYPES[k].name}">${svg(k)}</span>`).join('');
 
   function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
     window.scrollTo(0, 0);
-    refit();
   }
 
   // ===== вопросы =====
-  function score(upto) {
+  function score() {
     const sc = Object.fromEntries(keys.map(k => [k, 0]));
     // last хранит номер последнего вопроса, где тип получил баллы: при ничьей побеждает свежий
     const last = Object.fromEntries(keys.map(k => [k, -1]));
-    picks.slice(0, upto).forEach((p, qi) => {
+    picks.forEach((p, qi) => {
       for (const [k, v] of Object.entries(QUESTIONS[qi].a[p].s)) { sc[k] += v; last[k] = qi; }
     });
     const ranked = [...keys].sort((a, b) => sc[b] - sc[a] || last[b] - last[a]);
@@ -476,21 +240,14 @@
 
   function renderQuestion() {
     const item = QUESTIONS[step];
-    const qc = TYPES[keys[step % keys.length]].color;
-    const left = QUESTIONS.length - step - 1;
-    root.setProperty('--qc', qc);
-    root.setProperty('--qon', onColor(qc));
-    $('count').textContent = `${pad(step + 1)} / ${pad(QUESTIONS.length)}`;
-    $('segs').innerHTML = QUESTIONS.map((_, i) => `<i class="${i < step ? 'done' : i === step ? 'cur' : ''}"></i>`).join('');
+    $('count').textContent = `${step + 1} из ${QUESTIONS.length}`;
+    $('bar').style.width = `${(step + 1) / QUESTIONS.length * 100}%`;
     $('back').disabled = step === 0;
-    $('qnum').textContent = pad(step + 1);
-    $('of').innerHTML = `из ${QUESTIONS.length}<br>${left ? `ещё ${left}` : 'последний'}`;
     $('q').textContent = nb(item.q);
     $('answers').innerHTML = item.a.map((a, i) =>
-      `<li><button class="answer${picks[step] === i ? ' picked' : ''}" style="--i:${i}" data-i="${i}"><span class="k">${letters[i]}</span><span>${nb(a.t)}</span><span class="arr">→</span></button></li>`
+      `<li><button class="answer${picks[step] === i ? ' picked' : ''}" data-i="${i}"><b>${letters[i]}</b><span>${nb(a.t)}</span></button></li>`
     ).join('');
-    const st = $('stage');
-    st.classList.remove('in', 'out'); void st.offsetWidth; st.classList.add('in');
+    $('stage').classList.remove('out');
     locked = false;
   }
 
@@ -500,8 +257,8 @@
     setTimeout(() => {
       step = next;
       if (step < QUESTIONS.length) renderQuestion();
-      else reveal();
-    }, reduce ? 0 : 230);
+      else showResult();
+    }, reduce ? 0 : 180);
   }
 
   function pick(i) {
@@ -511,7 +268,7 @@
     picks[step] = i;
     btns.forEach((b, j) => b.classList.toggle('picked', j === i));
     locked = true;
-    setTimeout(() => goTo(step + 1), reduce ? 0 : 280);
+    setTimeout(() => goTo(step + 1), reduce ? 0 : 220);
   }
 
   $('answers').addEventListener('click', e => {
@@ -527,192 +284,100 @@
 
   $('go').onclick = () => { step = 0; picks = []; show('quiz'); renderQuestion(); };
   $('again').onclick = () => {
-    setType('#ffc800');
     history.replaceState(null, '', location.pathname);
     show('start');
   };
 
-  // ===== вспышки перед результатом =====
-  const LINES = ['Листаем твою будущую зачётку…', 'Спрашиваем старосту…', 'Сверяемся с деканатом…'];
-
-  function flashTo(k) {
-    const t = TYPES[k], f = $('flash');
-    f.style.setProperty('--fc', t.color);
-    f.style.setProperty('--fon', onColor(t.color));
-    $('flash-emoji').textContent = t.emoji;
-    $('flash-name').innerHTML = fitHTML(t.name);
-    $('flash-n').textContent = `${pad(keys.indexOf(k) + 1)} / ${pad(keys.length)}`;
-    fit($('flash-name'), .3);
-  }
-
-  async function reveal() {
-    const { sc, ranked } = score(QUESTIONS.length);
-    const win = ranked[0];
-    history.replaceState(null, '', `#${win}`);
-    if (!reduce) {
-      $('flash').classList.add('on');
-      let delay = 70, i = Math.floor(Math.random() * keys.length), line = 0, t = 0;
-      while (delay < 360) {
-        flashTo(keys[i++ % keys.length]);
-        if (t <= 0) { $('flash-line').textContent = LINES[Math.min(line++, LINES.length - 1)]; t = 700; }
-        await sleep(delay); t -= delay; delay *= 1.14;
-      }
-      flashTo(win);
-      $('flash-line').textContent = 'Готово!';
-      await sleep(650);
-      $('flash').classList.remove('on');
-    }
-    renderResult(win, ranked.slice(0, 4).map(k => [k, sc[k]]), false);
-  }
-
   // ===== результат =====
+  function showResult() {
+    const { sc, ranked } = score();
+    history.replaceState(null, '', `#${ranked[0]}`);
+    renderResult(ranked[0], ranked.slice(0, 4).map(k => [k, sc[k]]), false);
+  }
+
   function renderResult(key, mix, fromLink) {
     const t = TYPES[key];
     current = key;
-    setType(t.color);
     $('r-kicker').textContent = fromLink ? 'Твой друг станет' : 'Ты станешь';
-    $('r-no').textContent = `Тип ${pad(keys.indexOf(key) + 1)} / ${pad(keys.length)}`;
-    $('r-emoji').textContent = t.emoji;
-    $('r-name').innerHTML = fitHTML(t.name);
+    $('r-icon').innerHTML = svg(key);
+    $('r-name').textContent = t.name;
     $('r-tag').textContent = nb(t.tagline);
     $('r-text').textContent = nb(t.text);
-    $('r-strengths').innerHTML = t.strengths.map(s => `<li>${s}</li>`).join('');
+    $('r-strengths').innerHTML = t.strengths.map(s => `<span>${s}</span>`).join('');
     $('r-where').textContent = nb(t.where);
     $('mix-box').hidden = !mix;
     $('story').hidden = fromLink;
-    $('again').innerHTML = fromLink ? 'А каким станешь ты? <span class="arr">→</span>' : 'Заново';
-    $('again').className = fromLink ? 'btn' : 'btn light';
+    $('again').textContent = fromLink ? 'Пройти тест самому' : 'Пройти ещё раз';
+    $('again').className = fromLink ? 'btn' : 'btn ghost';
     $('again').style.order = fromLink ? -1 : '';
     if (mix) {
       const sum = mix.reduce((s, [, v]) => s + v, 0) || 1;
-      const pcts = mix.map(([, v]) => Math.round(v / sum * 100));
-      $('stack').innerHTML = mix.map(([k], i) => `<i data-w="${pcts[i]}" style="background:${TYPES[k].color}"></i>`).join('');
-      $('legend').innerHTML = mix.map(([k], i) =>
-        `<li><i style="background:${TYPES[k].color}"></i><span>${TYPES[k].emoji} ${TYPES[k].name}</span><b>${pcts[i]}%</b></li>`
-      ).join('');
-      setTimeout(() => $('stack').querySelectorAll('i').forEach(i => i.style.width = i.dataset.w + '%'), 700);
+      $('r-mix').innerHTML = mix.map(([k, v], i) => {
+        const pct = Math.round(v / sum * 100);
+        return `<div class="row">${svg(k)}<span>${TYPES[k].name}</span><b>${pct}%</b>
+          <div class="bar"><i data-w="${pct}" style="background:${MIX[i]}"></i></div></div>`;
+      }).join('');
+      setTimeout(() => $('r-mix').querySelectorAll('i').forEach(i => i.style.width = i.dataset.w + '%'), 300);
     }
     show('result');
-    const p = $('poster');
-    p.classList.remove('go'); void p.offsetWidth; p.classList.add('go');
-    setTimeout(() => celebrate(t.color, fromLink), 300);
-  }
-
-  // ===== конфетти =====
-  const fx = $('fx'), cx = fx.getContext('2d');
-  let parts = [], running = false;
-  function size() {
-    const d = Math.min(devicePixelRatio || 1, 2);
-    fx.width = innerWidth * d; fx.height = innerHeight * d;
-    cx.setTransform(d, 0, 0, d, 0, 0);
-  }
-  addEventListener('resize', size); size();
-
-  function burst(x, y, colors, n = 60, power = 12, spread = Math.PI * 2, dir = -Math.PI / 2) {
-    if (reduce) return;
-    for (let i = 0; i < n; i++) {
-      const a = dir + (Math.random() - .5) * spread, v = power * (.45 + Math.random() * .8);
-      parts.push({
-        x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v,
-        r: Math.random() * 6, vr: (Math.random() - .5) * .3,
-        s: 8 + Math.random() * 10, c: colors[i % colors.length], life: 1,
-        decay: .005 + Math.random() * .008, round: Math.random() < .3,
-      });
-    }
-    if (!running) { running = true; requestAnimationFrame(tick); }
-  }
-
-  function tick() {
-    cx.clearRect(0, 0, innerWidth, innerHeight);
-    parts = parts.filter(p => p.life > 0 && p.y < innerHeight + 40);
-    for (const p of parts) {
-      p.vx *= .985; p.vy = p.vy * .985 + .3;
-      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= p.decay;
-      cx.save();
-      cx.globalAlpha = Math.min(1, p.life * 2);
-      cx.translate(p.x, p.y); cx.rotate(p.r);
-      cx.fillStyle = p.c; cx.strokeStyle = '#0a1f66'; cx.lineWidth = 1.5;
-      const h = p.s * Math.abs(Math.cos(p.r * 2)) + 1;
-      cx.beginPath();
-      if (p.round) cx.arc(0, 0, p.s / 2, 0, 7); else cx.rect(-p.s / 2, -h / 2, p.s, h);
-      cx.fill(); cx.stroke();
-      cx.restore();
-    }
-    if (parts.length) requestAnimationFrame(tick);
-    else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
-  }
-
-  function celebrate(color, small) {
-    const cols = [color, ...keys.map(k => TYPES[k].color)];
-    const H = innerHeight, W = innerWidth;
-    if (small) return burst(W / 2, H * .3, cols, 50, 11);
-    burst(0, H, cols, 80, 24, .7, -Math.PI / 3);
-    burst(W, H, cols, 80, 24, .7, -Math.PI * 2 / 3);
   }
 
   // ===== картинка для сторис =====
   const loadImg = src => new Promise((ok, fail) => { const im = new Image(); im.onload = () => ok(im); im.onerror = fail; im.src = src; });
+  const iconImg = (k, color) => loadImg('data:image/svg+xml,' + encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="480" height="480" fill="none" stroke="${color}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${TYPES[k].icon}</svg>`));
+
+  function greedy(g, words, maxW) {
+    const lines = [''];
+    for (const w of words) {
+      const cur = lines[lines.length - 1];
+      if (cur && g.measureText(`${cur} ${w}`).width > maxW) lines.push(w);
+      else lines[lines.length - 1] = cur ? `${cur} ${w}` : w;
+    }
+    return lines;
+  }
+
+  // Сужаем ширину, пока число строк не растёт, — строки выходят ровными, без одинокого слова в конце
+  function wrapLines(g, text, maxW) {
+    const words = nb(text).split(' ');
+    const n = greedy(g, words, maxW).length;
+    let lo = 0, hi = maxW;
+    while (hi - lo > 4) { const mid = (lo + hi) / 2; if (greedy(g, words, mid).length > n) lo = mid; else hi = mid; }
+    return greedy(g, words, hi);
+  }
 
   async function makeStory(key) {
-    const t = TYPES[key], W = 1080, H = 1920, M = 72, on = onColor(t.color);
+    const t = TYPES[key], W = 1080, H = 1920, M = 96;
     const c = document.createElement('canvas'); c.width = W; c.height = H;
     const g = c.getContext('2d');
-    await Promise.all([
-      document.fonts.load('900 100px "Inter Tight"'),
-      document.fonts.load('italic 900 60px "Playfair Display"'),
-      document.fonts.load('700 30px "JetBrains Mono"'),
-    ]).catch(() => {});
+    await Promise.all([document.fonts.load('700 100px Onest'), document.fonts.load('500 40px Onest')]).catch(() => {});
+    const [icon, mark, crest] = await Promise.all([
+      iconImg(key, '#1a4fd6'), loadImg('img/voenmeh-wordmark.webp'), loadImg('img/voenmeh-crest.png'),
+    ]);
 
-    g.fillStyle = t.color; g.fillRect(0, 0, W, H);
-    g.fillStyle = on;
-    const rule = y => g.fillRect(M, y, W - M * 2, 5);
+    g.fillStyle = '#1a4fd6'; g.fillRect(0, 0, W, H);
+    g.drawImage(crest, M, 120, 64, 64 * 500 / 354);
+    g.drawImage(mark, M + 92, 150, 300, 300 * 216 / 2000);
 
-    g.font = '700 30px "JetBrains Mono"';
-    g.textAlign = 'left'; g.fillText('КАКИМ СТУДЕНТОМ Я СТАНУ', M, 130);
-    g.textAlign = 'right'; g.fillText(`ТИП ${pad(keys.indexOf(key) + 1)}/${pad(keys.length)}`, W - M, 130);
-    g.textAlign = 'left';
-    rule(160);
+    g.textAlign = 'center';
+    g.fillStyle = 'rgba(255,255,255,.7)'; g.font = '500 40px Onest';
+    g.fillText('Я стану', W / 2, 520);
 
-    g.font = '360px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
-    g.textBaseline = 'top'; g.fillText(t.emoji, M - 10, 210); g.textBaseline = 'alphabetic';
+    g.fillStyle = '#ffffff';
+    g.beginPath(); g.roundRect(W / 2 - 150, 580, 300, 300, 84); g.fill();
+    g.drawImage(icon, W / 2 - 100, 630, 200, 200);
 
-    g.font = 'italic 900 60px "Playfair Display"';
-    const tag = [''];
-    for (const w of nb(t.tagline).split(' ')) {
-      const cur = tag[tag.length - 1];
-      if (cur && g.measureText(`${cur} ${w}`).width > W - M * 2) tag.push(w);
-      else tag[tag.length - 1] = cur ? `${cur} ${w}` : w;
-    }
+    g.font = '700 104px Onest'; g.fillStyle = '#ffffff';
+    let y = 1060;
+    for (const l of wrapLines(g, t.name, W - M * 2)) { g.fillText(l, W / 2, y); y += 116; }
+    g.font = '500 48px Onest'; g.fillStyle = '#cfe0ff';
+    for (const l of wrapLines(g, t.tagline, W - M * 2)) { g.fillText(l, W / 2, y + 20); y += 64; }
 
-    // Название растягивается на всю ширину, но не выше места, оставшегося до слогана
-    const lines = nameLines(t.name).map(l => l.toUpperCase());
-    const top = 700, bottom = H - 380 - 70 - (100 + (tag.length - 1) * 72) - 40;
-    const maxSize = (bottom - top) / (lines.length * .92);
-    let y = top;
-    for (const txt of lines) {
-      g.font = '900 100px "Inter Tight"';
-      const size = Math.min(100 * (W - M * 2) / g.measureText(txt).width, 300, maxSize);
-      g.font = `900 ${size}px "Inter Tight"`;
-      y += size * .82;
-      g.fillText(txt, M, y);
-      y += size * .1;
-    }
-    rule(y + 30);
-
-    g.font = 'italic 900 60px "Playfair Display"';
-    tag.forEach((l, i) => g.fillText(l, M, y + 120 + i * 72));
-
-    g.fillStyle = '#0b2e94'; g.fillRect(0, H - 380, W, 380);
-    g.fillStyle = '#ffffff'; g.fillRect(0, H - 380, W, 6);
-    const [mark, crest] = await Promise.all([loadImg('img/voenmeh-wordmark.webp'), loadImg('img/voenmeh-crest.png')]);
-    g.drawImage(mark, M, H - 320, 480, 480 * 216 / 2000);
-    g.drawImage(crest, W - M - 120, H - 345, 120, 120 * 500 / 354);
-    g.font = '900 100px "Inter Tight"';
-    const cta = 'А КАКИМ СТАНЕШЬ ТЫ?';
-    const cs = 100 * (W - M * 2 - 160) / g.measureText(cta).width;
-    g.font = `900 ${cs}px "Inter Tight"`; g.fillText(cta, M, H - 175);
-    g.font = '700 32px "JetBrains Mono"'; g.fillStyle = '#5ee7ff';
-    g.fillText('ПРОЙДИ ТЕСТ НА ДНЕ ОТКРЫТЫХ ДВЕРЕЙ →', M, H - 95);
+    g.fillStyle = 'rgba(255,255,255,.2)'; g.fillRect(M, H - 300, W - M * 2, 2);
+    g.fillStyle = '#ffffff'; g.font = '600 52px Onest';
+    g.fillText('А каким студентом станешь ты?', W / 2, H - 200);
+    g.fillStyle = '#cfe0ff'; g.font = '500 36px Onest';
+    g.fillText('Пройди тест на дне открытых дверей', W / 2, H - 135);
     return new Promise(r => c.toBlob(r, 'image/png'));
   }
 
@@ -721,11 +386,11 @@
     setTimeout(() => el.classList.remove('on'), 2200);
   }
 
-  const shareText = key => `Я стану: ${TYPES[key].emoji} ${TYPES[key].name}! А каким студентом станешь ты?`;
+  const shareText = key => `Я стану: ${TYPES[key].name}. А каким студентом Военмеха станешь ты?`;
 
   $('story').onclick = async () => {
     const blob = await makeStory(current);
-    const file = new File([blob], `student-${current}.png`, { type: 'image/png' });
+    const file = new File([blob], `voenmeh-${current}.png`, { type: 'image/png' });
     try {
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], text: shareText(current) });
@@ -746,10 +411,8 @@
     } catch (_) { /* пользователь закрыл окно «Поделиться» */ }
   };
 
-  setType('#ffc800');
   // Ссылка вида #founder открывает карточку типа — так результат видят друзья
   if (TYPES[location.hash.slice(1)]) renderResult(location.hash.slice(1), null, true);
-  else refit();
 </script>
 </body>
 </html>
