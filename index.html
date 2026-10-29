@@ -211,8 +211,9 @@
   const letters = ['А', 'Б', 'В', 'Г'];
   const MIX = ['#1a4fd6', '#6f9ef5', '#a9c4f7', '#cfd8e6'];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Предлоги и союзы из 1–2 букв приклеиваем к следующему слову, чтобы они не висели в конце строки
-  const nb = s => s.replace(/(^|[\s«(])([а-яёА-ЯЁ]{1,2}) /g, '$1$2 ');
+  // Предлоги и союзы из 1–2 букв приклеиваем к следующему слову, а тире — к предыдущему,
+  // чтобы ни то ни другое не оказалось на краю строки
+  const nb = s => s.replace(/(^|[\s«(])([а-яёА-ЯЁ]{1,2}) /g, '$1$2 ').replace(/ —/g, ' —');
   const svg = (k, cls = 'icon') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${TYPES[k].icon}</svg>`;
   let step = 0;
   let picks = [];
